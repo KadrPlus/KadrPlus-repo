@@ -16,7 +16,7 @@
             </assets>
         </extension>
     </addon>
-    <addon id="plugin.video.fanfilm" name="Kadr+" version="2.22.0" provider-name="divoff">
+    <addon id="plugin.video.fanfilm" name="Kadr+" version="2.24.0" provider-name="divoff">
         <requires>
             <import addon="xbmc.python" version="3.0.0" />
             <import addon="script.module.requests" />
@@ -56,8 +56,19 @@ Oparty na FanFilm, zawiera dodatkowe scrapery, poprawki i nowe funkcje.</descrip
             </assets>
             <news>Changelog:
 
+2.24 (2026-03-14)
+        - filmpalast: poprawiony scoring roku (+2 dobry, +1 rok+-1, -2 zły) — fix błędnego dopasowania np. Rampage 2009 zamiast 2018
+        - megakino: ta sama poprawka scoringu roku
+
+2.23 (2026-03-14)
+        - Nowy scraper: Wrzucaj.pl (oglądanie wideo, CDN URL bezpośrednie)
+        - Logowanie email+hasło, sesja cachowana 3h
+        - 1080p/4K tylko dla kont premium, SD/720p dla free
+
 2.22 (2026-03-14)
-        - Obfuskacja kodu (base64 URL, nagłówki, ścieżki; usunięte komentarze i docstringi)
+        - Nowy scraper: Wrzucaj.pl (provider wrzucaj — wideo, bezposrednie CDN URL)
+        - Nowy scraper: Wrzucaj.pl pliki (provider wrzucaj2 — tylko premium, resolving przez file_details)
+        - Logowanie wspólne dla obu providerów (cache sesji 3h)
 
 2.21 (2026-03-14)
         - MegaKino: poprawiony warm-up sesji (3 kroki: homepage, yg_token, index.php)
