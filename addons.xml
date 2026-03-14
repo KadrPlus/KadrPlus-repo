@@ -16,7 +16,7 @@
             </assets>
         </extension>
     </addon>
-    <addon id="plugin.video.kadrplus" name="Kadr+" version="2.33" provider-name="Kadr+">
+    <addon id="plugin.video.fanfilm" name="Kadr+" version="2.22.0" provider-name="divoff">
         <requires>
             <import addon="xbmc.python" version="3.0.0" />
             <import addon="script.module.requests" />
@@ -37,71 +37,262 @@
         <extension point="kodi.context.item">
             <menu id="kodi.core.main">
                 <item library="epg.py">
-                    <label lang="de">In Kadr+ suchen</label>
+                    <label lang="pl">Szukaj w Kadr+</label>
                     <visible>Window.IsVisible(tvguide)|Window.IsVisible(tvsearch)|Window.IsVisible(tvchannels)</visible>
                 </item>
             </menu>
         </extension>
         <extension point="xbmc.addon.metadata">
             <reuselanguageinvoker>true</reuselanguageinvoker>
-            <summary lang="de">Kadr+ — Filme und Serien</summary>
-            <summary lang="en">Kadr+ — Movies and TV Shows</summary>
-            <description lang="de">Plugin für Filme und Serien.
+            <summary lang="pl">Kadr+ — filmy i seriale</summary>
+            <description lang="pl">Plugin z filmami i serialami.
 
-Kadr+ — Modifikation basierend auf FanFilm.
-Zusätzliche DE-Scraper, deutsche Übersetzung und Fehlerbehebungen.
-Deutsche Version mit DE-Scrapern: Filmpalast, MegaKino1, Vavoo.</description>
-            <description lang="en">Plugin for movies and TV shows.
-
-Kadr+ — modification based on FanFilm.
-Additional DE scrapers, German translation and bug fixes.
-German version with DE scrapers: Filmpalast, MegaKino1, Vavoo.</description>
+Kadr+ — rozwijany przez divoff.
+Oparty na FanFilm, zawiera dodatkowe scrapery, poprawki i nowe funkcje.</description>
             <platform>all</platform>
             <assets>
                 <icon>icon.png</icon>
                 <fanart>fanart.jpg</fanart>
-                <screenshot>resources/screenshot/screenshot01.png</screenshot>
-                <screenshot>resources/screenshot/screenshot02.png</screenshot>
-                <screenshot>resources/screenshot/screenshot03.png</screenshot>
             </assets>
             <news>Changelog:
 
-2.26 (2026-03-08)
-        - Ko-fi support page redesigned (link first, info below)
-        - Settings: Ko-fi tab polished
+2.22 (2026-03-14)
+        - Obfuskacja kodu (base64 URL, nagłówki, ścieżki; usunięte komentarze i docstringi)
 
-2.25 (2026-03-08)
-        - Ko-fi support tab added to settings
-        - Removed emoji from menu labels (Kodi compatibility)
+2.21 (2026-03-14)
+        - MegaKino: poprawiony warm-up sesji (3 kroki: homepage, yg_token, index.php)
+        - MegaKino: usunięto debug logowanie body
 
-2.22 (2026-03-08)
-        - Obfuscated source code (string encoding, docstrings removed)
-
-2.21 (2026-03-08)
-        - Added Ko-fi donation button (main menu + settings)
-        - Plugin author changed to Kadr+
-
-2.20 (2026-03-08)
-        - Authorization labels unified: TRAKT/TMDB both show "Autorisierung"
-        - HTTP server status translated to German
+2.20 (2026-03-13)
+        - MegaKino: dodano logowanie treści odpowiedzi gdy &lt;500 znaków (diagnostyka)
 
 2.19 (2026-03-08)
-        - All user-visible "KadrPlus" labels renamed to "Kadr+"
-        - TMDB/Trakt authorization dialogs translated to German
+        - MegaKino: usunięto pole yg_token z ustawień wtyczki (token generowany automatycznie przez serwer)
+        - MegaKino: usunięto pole PHPSESSID z ustawień wtyczki (niepotrzebne)
+        - Poprawka: błąd XML w changelog (znaki &lt; &gt; &amp; nie były escapowane)
 
 2.18 (2026-03-07)
-        - DE version: all Polish scrapers removed
-        - Full German UI translation (settings, menus, dialogs)
-        - TMDB language set to German (de)
-        - Plugin ID: plugin.video.kadrplus
-        - MegaKino: removed yg_token requirement (works without login)
+        - Dodano plik resources/megakino_instrukcja.txt z opisem jak zdobyc yg_token
 
-2.7 (2026-03-07)
-        - Added MegaKino1.watch scraper (DE, movies + series)
+2.17 (2026-03-07)
+        - MegaKino: filmy — scrapowanie linkow z &amp;lt;iframe data-src/src&amp;gt;
+          (filmy nie uzywaja &amp;lt;select&amp;gt; jak seriale, tylko iframes z hostem wideo)
+        - MegaKino: pomijanie YouTube i megakino w iframe (traillery)
 
-1.0 (2026-03-04)
-        - DE scrapers: Filmpalast.to, Vavoo.to
-        - Based on FanFilm (open source)
+2.16 (2026-03-07)
+        - MegaKino: _has_content() — akceptuje HTML filmow bez mr-select
+          (wczesniej _fetch_by_id odrzucal pelny HTML bo nie bylo selektora serialowego)
+
+2.15 (2026-03-07)
+        - MegaKino: verify fetch wysyla Referer=URL tytulu + X-Requested-With: XMLHttpRequest
+          (dokladna emulacja fetch() JS z przegladarki)
+        - MegaKino: nowy yg_token z odpowiedzi verify ustawiany przed GET strony tytulu
+
+2.14 (2026-03-07)
+        - MegaKino: weryfikacja yg_token przez GET /index.php?yg=token przed kazdym GET strony
+          (odwzorowanie mechanizmu JS: fetch("/index.php?yg=token").then(location.replace(...)))
+
+2.13 (2026-03-07)
+        - MegaKino: rozszerzone logowanie debug (ujawnilo 280B odpowiedz z kodem JS weryfikacji)
+
+2.12 (2026-03-07)
+        - MegaKino: fix domain cookie (.megakino1.watch z kropka)
+
+2.11 (2026-03-07)
+        - MegaKino: cookies yg_token + PHPSESSID z ustawien pluginu
+
+2.10 (2026-03-07)
+        - MegaKino: usunieto Sec-Fetch-* naglowki ktore triggerowaly Cloudflare
+
+2.9  (2026-03-07)
+        - MegaKino: 3 metody pobierania (ajax showfull, direct GET, newsid shortlink)
+
+2.8  (2026-03-07)
+        - MegaKino: fix cookies (warm-up strony glownej, Referer, retry gdy odpowiedz za krotka)
+
+2.7  (2026-03-07)
+        - Dodano scraper MegaKino1.watch (DE, filmy+seriale)
+
+2.6  (2026-03-07)
+        - Usunieto nowe scrapery DE (serienstream, burningseries, streamkiste)
+        - DE: tylko Filmpalast i Vavoo
+
+2.5  (2026-03-07)
+        - Przywrocono StreamKiste.tv (dziala z VPN)
+
+2.4  (2026-03-07)
+        - s.to: naprawiono wyszukiwanie (/suche?keyword= zamiast /ajax/search)
+        - Usunieto StreamKiste.tv (zablokowany przez ISP w Polsce)
+        - Dodano Burning Series (burning-series.io) — seriale DE, 4000+ tytulów
+
+2.3  (2026-03-07)
+        - Nowy scraper: StreamKiste.tv — filmy i seriale DE (6M wizyt/mies.)
+
+2.2  (2026-03-07)
+        - Nowy scraper: SerienStream.to (s.to) — seriale DE z dubbingiem i napisami
+        - Usunieto scraper megakino1.watch (bot protection TLS nie do obejscia w Kodi)
+
+2.1  (2026-03-07)
+ NOWE SCRAPERY:
+ - MegaKino1.watch — filmy i seriale z dubbingiem DE
+   Wyszukiwanie przez WordPress REST API (/wp-json/wp/v2/posts)
+   (XFS /xfsearch/ zwraca pusty HTML bez JavaScript — REST API działa bez przegladarki)
+   Seriale: sufiks -serie w slugu + wzorce -s01e01 i -staffel-S-folge-E
+   Odcinki wyszukiwane przez REST API (/wp-json/wp/v2/posts?slug=...)
+   Jakość: wykrywa z nazwy releasu (1080p/720p/4K/CAM)
+   Info: "Dubbing DE | NazwaHosta"
+
+2.1-diag  (2026-03-07)
+ - Wersja diagnostyczna (tymczasowa) — logowanie body odpowiedzi megakino
+   w celu analizy struktury strony; nie przeznaczona do normalnego użytku
+
+2.0  (2026-03-07)
+ NOWE SCRAPERY:
+ - MegaKino1.watch — filmy i seriale z dubbingiem DE
+   Silnik XFS (identyczny jak filmpalast.to), brak Cloudflare
+   Seriale: wykrywa sufiks -serie w slugu + wzorce -s01e01 i -staffel-S-folge-E
+   Jakość: wykrywa z nazwy releasu (1080p/720p/4K/CAM)
+   Info: "Dubbing DE | NazwaHosta"
+   Dodano do ustawień jako [DE] MegaKino1.watch (domyślnie włączony)
+
+2.0  (2026-03-06)
+ POPRAWKI — kinoteka.cc:
+ - Źródła odcinków seriali wyciągane z osadzonego JSON (const episodes={...})
+   zamiast ze statycznego HTML (serwer ignoruje parametry ?season=&amp;episode=)
+ - _get_episode_url zwraca URL z parametrami season/episode (fix dla sources())
+ - Dodano _extract_episodes_json() — parser JSON z odcinkami wszystkich sezonów
+ - Dodano _is_tvshow() — sprawdzenie czy znaleziony wynik to serial (nie film)
+ - Poprawiony scoring roku w _find_best_match: +2 za właściwy rok, -1 kara za zły
+ - Film nie jest już podrzucany gdy szukamy serialu o tym samym tytule
+
+ POPRAWKI — zerion.cc:
+ - Wyświetla infoDialog "limit darmowych odtworzeń — wymagane konto premium"
+   gdy serwis zwróci flimit=True (identyczny styl jak komunikat Cloudflare w cdahd)
+ - Usunięte nadmiarowe logowanie debug dodane diagnostycznie w v1.4
+
+1.9-diag  (2026-03-06)
+ - Wersja diagnostyczna (tymczasowa) — dodane logowanie fragmentów HTML kinoteki
+   w celu analizy struktury strony; nie przeznaczona do normalnego użytku
+
+1.8  (2026-03-06)
+ POPRAWKI — kinoteka.cc:
+ - sources() próbuje znaleźć link do odcinka w HTML strony głównej serialu
+   przed użyciem bezpośredniego URL ?season=&amp;episode= (który serwer ignoruje)
+
+1.7  (2026-03-06)
+ POPRAWKI — kinoteka.cc:
+ - _get_episode_url sprawdza czy pobrana strona to faktycznie serial (_is_tvshow)
+   zanim zwróci URL — zapobiega podrzucaniu filmów przy szukaniu seriali
+
+1.6  (2026-03-06)
+ POPRAWKI — kinoteka.cc:
+ - Poprawiony scoring roku w _find_best_match: +2 za właściwy rok, -1 za zły
+   (poprzednio: +1 za właściwy, 0 za zły — film Ted 2012 wygrywał z serialem Ted 2024)
+
+ POPRAWKI — zerion.cc:
+ - Wyświetla infoDialog gdy serwis zwróci limit darmowych odtworzeń (flimit=True)
+
+1.5  (2026-03-06)
+ POPRAWKI — zerion.cc:
+ - Obsługa odpowiedzi flimit=True ("Serwery zajęte — Wykup premium"):
+   loguje czytelny komunikat zamiast cicho zwracać None
+ - Usunięte nadmiarowe logowanie debug (dodane diagnostycznie w v1.4)
+
+1.4  (2026-03-06)
+ NOWE SCRAPERY:
+ - Dodane scrapery PL: dramaclub24, desuonline, docchi, frixysubs, filmoteka, starekino
+ - Nowy scraper EN: flixhq.py
+ - Nowy scraper vodpl.py (Player.pl z timeoutem 8s) — zastąpił vodplayer.py
+
+ POPRAWKI:
+ - Usunięty vodplayer.py (duplikat bez timeoutu — powodował wielosekundowe zawieszenia)
+ - zerion.py: pełne przepisanie logiki resolve() i get_embed_url()
+ - iitv.py: przywrócony (był usunięty w v1.3)
+
+1.3  (2026-03-05)
+ NOWE SCRAPERY:
+ - FilmyOnline.cc — filmy i seriale PL (potwierdzono że serwis działa)
+
+ ULEPSZENIA:
+ - vodpl (Player.pl): poprawione dopasowanie odcinków serialowych — najpierw po tytule
+   odcinka (jak w becie), fallback po numerze; episodes=true w search() dla szerszych wyników
+ - vodpl (Player.pl): _extract_titles obsługuje więcej formatów URL (str, dict, tuple)
+ - settings.xml: zaktualizowany label FilmyOnline.cc z opisem
+
+1.2  (2026-03-05)
+ NOWE SCRAPERY (z FanFilm Beta):
+ - Filmoteka Narodowa — polskie filmy do 1960 r. (w 100% legalne, repozytorium.fn.org.pl)
+ - Stare Kino — filmy przedwojenne przez YouTube / Ninateka / repozytorium.fn.org.pl
+ - DramaClub24 — K-drama / J-drama / C-drama z polskim lektorem/napisami
+ - Desu Online — anime PL (desu-online.pl) z obsługą numeracji absolutnej
+ - Docchi — anime PL (docchi.pl) przez API docchi.pl/v1
+ - FrixySubs — anime PL (frixysubs.pl) przez API frixysubs.pl
+ - FlixHQ — filmy i seriale EN (flixhq.to), tylko serwer Vidcloud
+
+1.1  (2026-03-05)
+ NOWE SCRAPERY (z FanFilm Beta):
+ - Player.pl (vodpl) — darmowe archiwum TVP: filmy, seriale, bajki, dokumenty PL
+   (odtwarza wyłącznie content payable=false, nie wymaga logowania)
+   Obsługuje DASH + Widevine DRM oraz HLS bez DRM
+
+1.0  (2026-03-04)
+ NOWE SCRAPERY:
+ - filmpalast.to — filmy i seriale z dubbingiem DE
+ - vavoo.to — filmy i seriale z dubbingiem DE
+ - kinoteka.cc — filmy i seriale PL
+ - nowa kategoria języka "Niemiecki" w ustawieniach (DE / PL+DE / PL+EN+DE)
+
+ ULEPSZENIA:
+ - DoH (DNS-over-HTTPS) — wszystkie scrapery używają cloudflare-dns.com do resolucji DNS
+   (implementacja identyczna jak w oryginalnej wtyczce filmpalast.ex — tylko TCP przez IP,
+   URL / Host / SNI pozostają niezmienione)
+ - TLS fingerprint Firefoxa — sesje HTTP wyglądają jak prawdziwa przeglądarka
+   (cipher suite z cfscrape/browsers.json, check_hostname=False przez ssl_context)
+ - Wszystkie scrapery przepuszczają źródła niezależnie od tego czy resolveurl zna hosta
+   (filmpalast, vavoo, kinoteka — np. vidsonic.net i inne nowe hosty)
+ - filmpalast: poprawne kodowanie URL wyszukiwania (%20 zamiast +, jak w oryginale)
+ - zaluknij.cc: etykiety pól cf_clearance i user-agent oznaczone jako "(opcjonalnie)"
+ - vavoo.to dodane do ustawień (było brakujące w konfiguracji)
+ - cdahd: pełne nagłówki Firefoxa (Sec-Fetch-*, DNT, Sec-GPC, TE)
+ - cdahd: check_if_cf wykrywa też czysty kod 403 (nie tylko "Just a moment" w HTML)
+ - cdahd: komunikat z instrukcją gdy Cloudflare blokuje dostęp
+
+ POPRAWKI:
+ - player.py: automatyczne napisy przez OpenSubtitles REST API v1
+   (stare XML-RPC API wyłączone przez OpenSubtitles w 2023)
+ - player.py: filman_api i doodstream wyłączone z setResolvedUrl
+ - sources.py: kinoteka i vavoo dodane do list scraperów z kwargs tmdb_id
+ - sources.py: filman_api wyłączony z check_link (fałszywy błąd 403 na HEAD)
+ - sources.py: poprawione wyświetlanie badge języka
+ - ekinotv.py: session inicjalizowana od razu (wymagane przez pair_scraper)
+ - zerion.py: pełne przepisanie (nowe API zeriun.cc)
+ - animezone, iitv, shinden, stalkervod, wizjacc: poprawka sprawdzania odpowiedzi HTTP
+   (requests.Response zwraca False dla 4xx/5xx — zmiana na sprawdzanie status_code)
+ - settings.xml: naprawione znaki &amp;amp; i brakujące spacje w atrybutach
+
+ INFORMACJA — CDA-HD.cc:
+ - Serwis jest chroniony przez Cloudflare Bot Fight Mode (blokada IP, puste body 403)
+ - Programowe obejście nie jest możliwe bez prawdziwej przeglądarki z JavaScript
+ - Rozwiązanie: wkleić ciasteczko cf_clearance w Ustawienia → CDA-HD.cc
+   (otwórz cda-hd.cc w przeglądarce → skopiuj cf_clearance → wklej w ustawieniach)
+   Ciasteczko jest ważne około tygodnia.
+
+--- oryginalne zmiany FanFilm (mod tele) ---
+
+2025.11.24
+ - wciągnięcie modułu PTW do struktury folderów wtyczki
+
+2024.14.01
+ - szczegóły zmian: https://forum.kodiwpigulce.pl/showthread.php?tid=5938
+
+2023.13.03
+ - włączony dopalacz (reuselanguageinvoker)
+
+2023.01.06
+ - zmiana sposobu pobierania informacji o filmach i serialach na TMDB
+ - wyszukiwanie filmów i seriali oparte na TMDB
+ - kompatybilność z Kodi 20
+ - i wiele innych - szczegóły: https://forum.kodiwpigulce.pl/showthread.php?tid=4421
 </news>
         </extension>
     </addon>
