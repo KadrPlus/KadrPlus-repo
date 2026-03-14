@@ -16,7 +16,7 @@
             </assets>
         </extension>
     </addon>
-    <addon id="plugin.video.fanfilm" name="Kadr+" version="2.24.0" provider-name="divoff">
+    <addon id="plugin.video.fanfilm" name="Kadr+" version="2.25.0" provider-name="divoff">
         <requires>
             <import addon="xbmc.python" version="3.0.0" />
             <import addon="script.module.requests" />
@@ -55,6 +55,16 @@ Oparty na FanFilm, zawiera dodatkowe scrapery, poprawki i nowe funkcje.</descrip
                 <fanart>fanart.jpg</fanart>
             </assets>
             <news>Changelog:
+
+2.25 (2026-03-14)
+        - Dodano tłumaczenie na język niemiecki (German/strings.po)
+        - settings.xml: wszystkie etykiety przetłumaczone (PL/DE automatycznie wg języka Kodi)
+        - TMDB: opisy automatycznie w języku Kodi gdy api.language=AUTO
+
+2.25 (2026-03-14)
+        - Dodano tłumaczenie na język niemiecki (German/strings.po)
+        - Komunikaty i powiadomienia automatycznie w języku Kodi (PL/DE)
+        - TMDB automatycznie po niemiecku gdy Kodi ustawione na DE
 
 2.24 (2026-03-14)
         - filmpalast: poprawiony scoring roku (+2 dobry, +1 rok+-1, -2 zły) — fix błędnego dopasowania np. Rampage 2009 zamiast 2018
