@@ -16,7 +16,7 @@
             </assets>
         </extension>
     </addon>
-    <addon id="plugin.video.fanfilm" name="Kadr+" version="2.25.0" provider-name="divoff">
+    <addon id="plugin.video.fanfilm" name="Kadr+" version="2.28.0" provider-name="divoff">
         <requires>
             <import addon="xbmc.python" version="3.0.0" />
             <import addon="script.module.requests" />
@@ -26,7 +26,6 @@
             <import addon="script.module.kodi-six" />
             <import addon="script.module.pyxbmct" />
             <import addon="script.module.resolveurl" optional="true" />
-            <import addon="script.module.kover" version="0.0.6" optional="true" />
             <import addon="inputstream.adaptive" />
             <import addon="script.module.inputstreamhelper" />
         </requires>
@@ -55,6 +54,15 @@ Oparty na FanFilm, zawiera dodatkowe scrapery, poprawki i nowe funkcje.</descrip
                 <fanart>fanart.jpg</fanart>
             </assets>
             <news>Changelog:
+
+2.28 (2026-03-15)
+        - Wbudowano moduł kover bezpośrednio w wtyczkę (brak zewnętrznej zależności)
+
+2.27 (2026-03-15)
+        - Przywrócono zależność script.module.kover (dostępny w KadrPlus repo)
+
+2.26 (2026-03-15)
+        - Usunięto zależność script.module.kover (blokowała instalację z repo)
 
 2.25 (2026-03-14)
         - Dodano tłumaczenie na język niemiecki (German/strings.po)
