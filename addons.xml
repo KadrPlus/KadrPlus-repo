@@ -20,7 +20,7 @@
         </assets>
     </extension>
 </addon>
-    <addon id="plugin.video.fanfilm" name="Kadr+" version="2.28.0" provider-name="divoff">
+    <addon id="plugin.video.kadrplus" name="Kadr+" version="2.29.0" provider-name="divoff">
     <requires>
         <import addon="xbmc.python" version="3.0.0" />
         
@@ -60,6 +60,9 @@ Oparty na FanFilm, zawiera dodatkowe scrapery, poprawki i nowe funkcje.</descrip
             <fanart>fanart.jpg</fanart>
         </assets>
         <news>Changelog:
+
+2.29 (2026-03-15)
+        - Zmieniono ID wtyczki na plugin.video.kadrplus
 
 2.28 (2026-03-15)
         - Wbudowano moduł kover bezpośrednio w wtyczkę (brak zewnętrznej zależności)
