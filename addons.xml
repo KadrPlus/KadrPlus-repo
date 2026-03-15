@@ -20,7 +20,7 @@
             </assets>
         </extension>
     </addon>
-    <addon id="plugin.video.kadrplus" name="Kadr+" version="2.31.0" provider-name="divoff">
+    <addon id="plugin.video.kadrplus" name="Kadr+" version="2.32.0" provider-name="divoff">
         <requires>
             <import addon="xbmc.python" version="3.0.0" />
             <import addon="script.module.requests" />
@@ -58,6 +58,11 @@ Oparty na FanFilm, zawiera dodatkowe scrapery, poprawki i nowe funkcje.</descrip
                 <fanart>fanart.jpg</fanart>
             </assets>
             <news>Changelog:
+
+2.32 (2026-03-15)
+        - filmpalast: rok z tytułu wynikow (np. Mercy (2026)) zamiast ze strony szczegółów - dużo szybsze i dokładne
+        - megakino: fallback GET search gdy POST zwraca tę samą stronę dla każdego zapytania
+        - wrzucaj: ulepszone sprawdzanie udanego logowania
 
 2.31 (2026-03-15)
         - filmpalast: weryfikacja roku na stronie szczegółów gdy wiele wyników (fix Rampage 2009-&gt;2018)
