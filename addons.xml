@@ -20,7 +20,7 @@
             </assets>
         </extension>
     </addon>
-    <addon id="plugin.video.kadrplus" name="Kadr+" version="2.33.0" provider-name="divoff">
+    <addon id="plugin.video.kadrplus" name="Kadr+" version="2.36.0" provider-name="divoff">
         <requires>
             <import addon="xbmc.python" version="3.0.0" />
             <import addon="script.module.requests" />
@@ -58,6 +58,16 @@ Oparty na FanFilm, zawiera dodatkowe scrapery, poprawki i nowe funkcje.</descrip
                 <fanart>fanart.jpg</fanart>
             </assets>
             <news>Changelog:
+
+2.36 (2026-03-15)
+        - megakino: zmiana domeny na megakino1.club
+
+2.35 (2026-03-15)
+        - megakino: DLE AJAX search controller + GET from_page (naprawa zepsutej wyszukiwarki)
+
+2.34 (2026-03-15)
+        - filmpalast: szukanie po DE aliasach (Zoomania 2 itp.)
+        - megakino: DE aliasy priorytetowe, odrzucanie słabych dopasowań
 
 2.33 (2026-03-15)
         - filmpalast: weryfikacja roku na stronie szczegółów gdy wielu kandydatów (fix Rampage 2009 vs 2018)
