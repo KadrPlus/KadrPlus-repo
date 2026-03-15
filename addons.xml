@@ -325,4 +325,24 @@ Oparty na FanFilm, zawiera dodatkowe scrapery, poprawki i nowe funkcje.</descrip
 </news>
         </extension>
     </addon>
+    <addon id="repository.kadrplus" name="KadrPlus Repository" version="1.0.1" provider-name="Kadr+">
+        <extension point="xbmc.addon.repository" name="KadrPlus Repository">
+            <dir>
+                <info compressed="false">https://raw.githubusercontent.com/KadrPlus/KadrPlus-repo/main/addons.xml</info>
+                <checksum>https://raw.githubusercontent.com/KadrPlus/KadrPlus-repo/main/addons.xml.md5</checksum>
+                <datadir zip="true">https://raw.githubusercontent.com/KadrPlus/KadrPlus-repo/main/zips/</datadir>
+            </dir>
+        </extension>
+        <extension point="xbmc.addon.metadata">
+            <summary lang="pl">Oficjalne repozytorium Kadr+</summary>
+            <summary lang="de">Offizielles Repository für Kadr+</summary>
+            <summary lang="en">Official repository for Kadr+</summary>
+            <description lang="pl">Oficjalne repozytorium Kadr+. Zawiera wtyczkę Kadr+ — filmy i seriale.</description>
+            <description lang="de">Offizielles Kadr+ Repository. Enthält Kadr+ — das Kodi-Addon für Filme und Serien.</description>
+            <description lang="en">Official Kadr+ repository. Contains Kadr+ — movies and TV shows addon.</description>
+            <assets>
+                <icon>icon.png</icon>
+            </assets>
+        </extension>
+    </addon>
 </addons>
