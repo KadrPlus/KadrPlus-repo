@@ -20,7 +20,7 @@
             </assets>
         </extension>
     </addon>
-    <addon id="plugin.video.kadrplus" name="Kadr+" version="2.36.0" provider-name="divoff">
+    <addon id="plugin.video.kadrplus" name="Kadr+" version="2.37.0" provider-name="divoff">
         <requires>
             <import addon="xbmc.python" version="3.0.0" />
             <import addon="script.module.requests" />
@@ -58,6 +58,10 @@ Oparty na FanFilm, zawiera dodatkowe scrapery, poprawki i nowe funkcje.</descrip
                 <fanart>fanart.jpg</fanart>
             </assets>
             <news>Changelog:
+
+2.37 (2026-03-16)
+        - player: powiadomienia "Kadr+" zamiast "FanFilm"
+        - settings: etykieta MegaKino bez domeny
 
 2.36 (2026-03-15)
         - megakino: zmiana domeny na megakino1.club
