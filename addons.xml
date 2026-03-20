@@ -20,7 +20,7 @@
             </assets>
         </extension>
     </addon>
-    <addon id="plugin.video.kadrplus" name="Kadr+" version="2.37.0" provider-name="divoff">
+    <addon id="plugin.video.kadrplus" name="Kadr+" version="2.38.0" provider-name="divoff">
         <requires>
             <import addon="xbmc.python" version="3.0.0" />
             <import addon="script.module.requests" />
@@ -64,7 +64,15 @@ Oparty na FanFilm, zawiera dodatkowe scrapery, poprawki i nowe funkcje.</descrip
         - settings: etykieta MegaKino bez domeny
 
 2.36 (2026-03-15)
-        - megakino: zmiana domeny na megakino1.club
+        - Obsługa języka niemieckiego: opisy filmów/seriali/odcinków pobierane w języku DE z TMDB
+        - Naprawiono hardcoded "language=pl" w episode_group URL → używa języka interfejsu
+        - super_info: szukanie tłumaczenia najpierw w języku interfejsu, potem EN (fallback)
+        - Dodano 8 brakujących tłumaczeń German/strings.po
+        - megakino: zmiana domeny na megakino1.club (cookie domain fix)
+        - megakino: poprawka dopasowania tytułów (wyższy próg score, ochrona przed fałszywymi trafami)
+        - filmpalast: poprawiony algorytm wykrywania roku (slug, JSON-LD, data-year, title tag)
+        - filmpalast: weryfikacja roku na stronie szczegółów działa też dla pojedynczego kandydata
+        - powiadomienia: "Kadr+" zamiast "FanFilm" we wszystkich komunikatach błędów
 
 2.35 (2026-03-15)
         - megakino: DLE AJAX search controller + GET from_page (naprawa zepsutej wyszukiwarki)
