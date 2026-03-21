@@ -24,6 +24,24 @@ def version_key(zip_path):
     return (0, 0, 0)
 
 
+def sanitize_xml(xml_content):
+    """Zamienia niedozwolone HTML encje na ich odpowiedniki UTF-8."""
+    html_entities = {
+        '&ouml;': 'ö', '&auml;': 'ä', '&uuml;': 'ü',
+        '&Ouml;': 'Ö', '&Auml;': 'Ä', '&Uuml;': 'Ü',
+        '&szlig;': 'ß', '&nbsp;': ' ', '&eacute;': 'é',
+        '&egrave;': 'è', '&oacute;': 'ó', '&oacute;': 'ó',
+    }
+    for entity, char in html_entities.items():
+        xml_content = xml_content.replace(entity, char)
+    # Usuń wszelkie pozostałe &nazwa; które nie są poprawnymi XML encjami
+    xml_content = re.sub(
+        r'&(?!amp;|lt;|gt;|apos;|quot;|#\d+;|#x[0-9a-fA-F]+;)([a-zA-Z][a-zA-Z0-9]*;)',
+        r'\1', xml_content
+    )
+    return xml_content
+
+
 def get_addon_xml_from_zip(zip_path):
     """Wyciąga addon.xml z ZIPa wtyczki."""
     with zipfile.ZipFile(zip_path, 'r') as z:
@@ -54,8 +72,8 @@ def build_addons_xml():
     root = ET.Element("addons")
 
     # Dodaj sam repo jako addon
-    repo_tree = ET.parse(REPO_ADDON_XML)
-    root.append(repo_tree.getroot())
+    repo_xml = sanitize_xml(REPO_ADDON_XML.read_text(encoding='utf-8'))
+    root.append(ET.fromstring(repo_xml))
 
     # Dodaj wszystkie wtyczki ze zips/
     found = find_latest_zips()
@@ -64,7 +82,12 @@ def build_addons_xml():
         if xml_content is None:
             print(f"  UWAGA: brak addon.xml w {zip_path.name}")
             continue
-        addon_elem = ET.fromstring(xml_content)
+        try:
+            xml_content = sanitize_xml(xml_content)
+            addon_elem = ET.fromstring(xml_content)
+        except ET.ParseError as e:
+            print(f"  BŁĄD parsowania {zip_path.name}: {e}")
+            continue
         version = addon_elem.get('version', '?')
         print(f"  Dodaję: {addon_id} v{version}")
         root.append(addon_elem)

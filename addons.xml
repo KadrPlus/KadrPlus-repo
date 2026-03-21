@@ -20,7 +20,7 @@
             </assets>
         </extension>
     </addon>
-    <addon id="plugin.video.kadrplus" name="Kadr+" version="2.38.0" provider-name="divoff">
+    <addon id="plugin.video.kadrplus" name="Kadr+" version="2.39.0" provider-name="divoff">
         <requires>
             <import addon="xbmc.python" version="3.0.0" />
             <import addon="script.module.requests" />
@@ -64,6 +64,8 @@ Oparty na FanFilm, zawiera dodatkowe scrapery, poprawki i nowe funkcje.</descrip
         - settings: etykieta MegaKino bez domeny
 
 2.36 (2026-03-15)
+        - filmpalast: fix krytyczny - rok wyciągany z HTML entity "Veröffentlicht:" (nie literal Veröffentlicht)
+        - filmpalast: fallback span-year wyklucza bieżący rok (eliminuje false positive z footera strony)
         - Obsługa języka niemieckiego: opisy filmów/seriali/odcinków pobierane w języku DE z TMDB
         - Naprawiono hardcoded "language=pl" w episode_group URL → używa języka interfejsu
         - super_info: szukanie tłumaczenia najpierw w języku interfejsu, potem EN (fallback)
