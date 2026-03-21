@@ -4,7 +4,7 @@ KadrPlus Repository – generator addons.xml i addons.xml.md5
 Uruchom po wgraniu nowego ZIPa: python update_repo.py
 """
 import hashlib
-import os
+import re
 import zipfile
 from pathlib import Path
 from xml.etree import ElementTree as ET
@@ -14,6 +14,14 @@ ZIPS_DIR = REPO_DIR / "zips"
 ADDONS_XML = REPO_DIR / "addons.xml"
 ADDONS_MD5 = REPO_DIR / "addons.xml.md5"
 REPO_ADDON_XML = REPO_DIR / "addon.xml"
+
+
+def version_key(zip_path):
+    """Sortowanie wg numeru wersji (nie alfabetycznie)."""
+    m = re.search(r'(\d+)\.(\d+)\.(\d+)', zip_path.name)
+    if m:
+        return tuple(int(x) for x in m.groups())
+    return (0, 0, 0)
 
 
 def get_addon_xml_from_zip(zip_path):
@@ -26,12 +34,12 @@ def get_addon_xml_from_zip(zip_path):
 
 
 def find_latest_zips():
-    """Znajduje najnowszy ZIP dla każdej wtyczki."""
+    """Znajduje najnowszy ZIP dla każdej wtyczki (sortowanie wg wersji)."""
     addons = {}
     for addon_dir in ZIPS_DIR.iterdir():
         if not addon_dir.is_dir():
             continue
-        zips = sorted(addon_dir.glob("*.zip"), reverse=True)
+        zips = sorted(addon_dir.glob("*.zip"), key=version_key, reverse=True)
         if zips:
             addons[addon_dir.name] = zips[0]
             print(f"  Znaleziono: {zips[0].name}")
@@ -63,9 +71,6 @@ def build_addons_xml():
 
     # Zapisz addons.xml
     ET.indent(root, space="    ")
-    tree = ET.ElementTree(root)
-    ET.indent(tree, space="    ")
-
     xml_str = '<?xml version="1.0" encoding="UTF-8"?>\n' + ET.tostring(root, encoding='unicode')
     ADDONS_XML.write_text(xml_str, encoding='utf-8')
     print(f"\n  Zapisano: {ADDONS_XML}")
