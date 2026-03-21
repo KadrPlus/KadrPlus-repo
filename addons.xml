@@ -20,7 +20,7 @@
             </assets>
         </extension>
     </addon>
-    <addon id="plugin.video.kadrplus" name="Kadr+" version="2.39.0" provider-name="divoff">
+    <addon id="plugin.video.kadrplus" name="Kadr+" version="2.39.2" provider-name="divoff">
         <requires>
             <import addon="xbmc.python" version="3.0.0" />
             <import addon="script.module.requests" />
