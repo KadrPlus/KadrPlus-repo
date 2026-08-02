@@ -20,7 +20,7 @@
             </assets>
         </extension>
     </addon>
-    <addon id="plugin.video.kadrplus2" name="Kadr+ 2.0" version="2.0.56" provider-name="FanFilm, divoff">
+    <addon id="plugin.video.kadrplus2" name="Kadr+ 2.0" version="2.0.59" provider-name="FanFilm, divoff">
         <requires>
             <import addon="xbmc.python" version="3.0.0" />
             <import addon="script.module.requests" />
@@ -51,6 +51,7 @@
             <summary lang="pl">Kadr+ 2.0 - nowa generacja dodatku</summary>
             <description lang="pl">Kadr+ 2.0 - nowa wersja dodatku rozwijana przez divoff, oparta na nowszym silniku FanFilm.[CR]Kontakt do twórcy modyfikacji - t.me/div0ff</description>
             <platform>all</platform>
+            <license>GPL-3.0-or-later</license>
             <assets>
                 <icon>icon.png</icon>
                 <fanart>fanart.jpg</fanart>
