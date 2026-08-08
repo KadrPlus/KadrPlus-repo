@@ -20,7 +20,7 @@
             </assets>
         </extension>
     </addon>
-    <addon id="plugin.video.kadrplus2" name="Kadr+ 2.0" version="2.0.62" provider-name="FanFilm, divoff">
+    <addon id="plugin.video.kadrplus2" name="Kadr+ 2.0" version="2.0.75" provider-name="FanFilm, divoff">
         <requires>
             <import addon="xbmc.python" version="3.0.0" />
             <import addon="script.module.requests" />
@@ -41,15 +41,21 @@
         <extension point="kodi.context.item">
             <menu id="kodi.core.main">
                 <item library="extsearch.py">
+                    <label lang="en">Search in Kadr+ 2.0</label>
                     <label lang="pl">Szukaj w Kadr+ 2.0</label>
+                    <label lang="de">In Kadr+ 2.0 suchen</label>
                     <visible>String.StartsWith(ListItem.FolderPath,pvr://) + !String.IsEmpty(ListItem.ChannelName)</visible>
                 </item>
             </menu>
         </extension>
         <extension point="xbmc.addon.metadata">
             <reuselanguageinvoker>true</reuselanguageinvoker>
+            <summary lang="en">Kadr+ 2.0 - the new generation of the add-on</summary>
             <summary lang="pl">Kadr+ 2.0 - nowa generacja dodatku</summary>
+            <summary lang="de">Kadr+ 2.0 – die neue Add-on-Generation</summary>
+            <description lang="en">Kadr+ 2.0 is a new version developed by divoff and based on the newer FanFilm engine.[CR]Contact the modification author - t.me/div0ff</description>
             <description lang="pl">Kadr+ 2.0 - nowa wersja dodatku rozwijana przez divoff, oparta na nowszym silniku FanFilm.[CR]Kontakt do twórcy modyfikacji - t.me/div0ff</description>
+            <description lang="de">Kadr+ 2.0 ist eine von divoff entwickelte Version auf Basis der neueren FanFilm-Engine.[CR]Kontakt zum Autor der Modifikation - t.me/div0ff</description>
             <platform>all</platform>
             <license>GPL-3.0-or-later</license>
             <assets>
