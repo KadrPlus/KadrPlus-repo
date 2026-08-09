@@ -11,7 +11,13 @@ Podanie ZIP-a jako argumentu:
   * sprawdza integralność paczki oraz zgodność ID, wersji i nazwy,
   * kopiuje ją do zips/<addon_id>/,
   * kopiuje grafiki zadeklarowane w <assets>,
+  * synchronizuje główny addon.xml repozytorium z najnowszym ZIP-em
+    repository.kadrplus znalezionym w zips/,
   * generuje addons.xml i addons.xml.md5.
+
+Dzięki temu po dodaniu nowej paczki repozytorium, np.
+repository.kadrplus-1.0.3.zip, nie trzeba osobno pamiętać o ręcznej
+podmianie głównego addon.xml.
 
 Skrypt nie wykonuje git commit ani git push.
 """
@@ -281,10 +287,71 @@ def repo_manifest() -> tuple[str, ET.Element]:
     return text, manifest
 
 
-def render_repository(copy_latest_assets: bool) -> tuple[bytes, bytes, list[AddonArchive]]:
-    _, repository = repo_manifest()
-    repository_id = repository.get("id", "")
+def sync_repository_manifest(
+    archives: dict[str, AddonArchive],
+    check_only: bool,
+) -> ET.Element:
+    """Synchronizuje główny addon.xml z najnowszą paczką repozytorium.
+
+    Kodi odczytuje wersję repozytorium z addons.xml, a ten plik jest
+    generowany z głównego addon.xml. Jeśli do zips/repository... trafi
+    nowszy ZIP repozytorium, ale główny addon.xml pozostanie stary,
+    Kodi nie zobaczy aktualizacji.
+
+    Ta funkcja automatycznie pobiera addon.xml z najnowszego ZIP-a
+    repozytorium i zapisuje go jako główny addon.xml. W trybie --check
+    niczego nie zapisuje, tylko zgłasza niespójność.
+    """
+    current_text, current_manifest = repo_manifest()
+    repository_id = current_manifest.get("id", "").strip()
+    repository_archive = archives.get(repository_id)
+
+    if repository_archive is None:
+        return current_manifest
+
+    archive_text = repository_archive.manifest_text
+    archive_manifest = repository_archive.manifest
+
+    current_normalized = sanitize_xml(current_text).strip()
+    archive_normalized = sanitize_xml(archive_text).strip()
+
+    if current_normalized == archive_normalized:
+        return current_manifest
+
+    current_version = current_manifest.get("version", "").strip()
+    archive_version = archive_manifest.get("version", "").strip()
+
+    if version_key(archive_version) < version_key(current_version):
+        raise RepoError(
+            f"Najnowsza paczka {repository_archive.canonical_name} ma starszą "
+            f"wersję ({archive_version}) niż główny addon.xml ({current_version})."
+        )
+
+    if check_only:
+        raise RepoError(
+            f"Główny addon.xml repozytorium jest niespójny z "
+            f"{repository_archive.canonical_name}. Uruchom skrypt bez --check, "
+            "aby zsynchronizować pliki."
+        )
+
+    data = archive_text.encode("utf-8")
+    atomic_write(REPO_ADDON_XML, data)
+    print(
+        f"  Zsynchronizowano addon.xml repozytorium: "
+        f"{current_version or '?'} -> {archive_version}"
+    )
+
+    # Parsujemy jeszcze raz zawartość, która faktycznie została zapisana.
+    return parse_manifest(archive_text, str(REPO_ADDON_XML))
+
+
+def render_repository(
+    copy_latest_assets: bool,
+    check_only: bool,
+) -> tuple[bytes, bytes, list[AddonArchive]]:
     archives = scan_latest_archives(copy_latest_assets)
+    repository = sync_repository_manifest(archives, check_only=check_only)
+    repository_id = repository.get("id", "")
 
     root = ET.Element("addons")
     root.append(repository)
@@ -352,7 +419,8 @@ def build(imports: list[Path], check_only: bool) -> None:
         import_archive(archive)
 
     xml_bytes, md5_bytes, selected = render_repository(
-        copy_latest_assets=not check_only
+        copy_latest_assets=not check_only,
+        check_only=check_only,
     )
     validate_assets(selected)
 
