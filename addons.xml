@@ -25,7 +25,7 @@
             </assets>
         </extension>
     </addon>
-    <addon id="plugin.video.kadrplus2" name="Kadr+ 2.0" version="2.0.83" provider-name="FanFilm, divoff">
+    <addon id="plugin.video.kadrplus2" name="Kadr+ 2.0" version="2.0.84" provider-name="FanFilm, divoff">
         <requires>
             <import addon="xbmc.python" version="3.0.0" />
             <import addon="script.module.requests" />
