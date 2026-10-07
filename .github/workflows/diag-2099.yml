@@ -1,0 +1,33 @@
+name: Diagnose Kadr+ 2.0.99 base
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/diag-2099.yml"
+permissions:
+  contents: read
+jobs:
+  fingerprint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fingerprint current 2.0.98 tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/kadr98
+          mkdir -p /tmp/kadr98
+          unzip -q zips/plugin.video.kadrplus2/plugin.video.kadrplus2-2.0.98.zip -d /tmp/kadr98
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+          root=Path('/tmp/kadr98/plugin.video.kadrplus2')
+          h=hashlib.sha256()
+          files=sorted((p for p in root.rglob('*') if p.is_file()), key=lambda p:p.relative_to(root).as_posix())
+          for p in files:
+              rel=p.relative_to(root).as_posix().encode()
+              digest=hashlib.sha256(p.read_bytes()).hexdigest().encode()
+              h.update(rel+b'\0'+digest+b'\n')
+          print('KADR_BASE_FILE_COUNT='+str(len(files)))
+          print('KADR_BASE_TREE_FP='+h.hexdigest())
+          PY
