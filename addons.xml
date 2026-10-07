@@ -25,7 +25,7 @@
             </assets>
         </extension>
     </addon>
-    <addon id="plugin.video.kadrplus2" name="Kadr+ 2.0" version="2.0.98" provider-name="FanFilm, divoff">
+    <addon id="plugin.video.kadrplus2" name="Kadr+ 2.0" version="2.0.99" provider-name="FanFilm, divoff">
         <requires>
             <import addon="xbmc.python" version="3.0.0" />
             <import addon="script.module.requests" />
@@ -50,6 +50,7 @@
                     <label lang="en">Search in Kadr+ 2.0</label>
                     <label lang="pl">Szukaj w Kadr+ 2.0</label>
                     <label lang="de">In Kadr+ 2.0 suchen</label>
+                    <label lang="es">Buscar en Kadr+ 2.0</label>
                     <visible>String.StartsWith(ListItem.FolderPath,pvr://) + !String.IsEmpty(ListItem.ChannelName)</visible>
                 </item>
             </menu>
@@ -59,9 +60,11 @@
             <summary lang="en">Kadr+ 2.0 - the new generation of the add-on</summary>
             <summary lang="pl">Kadr+ 2.0 - nowa generacja dodatku</summary>
             <summary lang="de">Kadr+ 2.0 – die neue Add-on-Generation</summary>
+            <summary lang="es">Kadr+ 2.0 - la nueva generación del complemento</summary>
             <description lang="en">Kadr+ 2.0 is a new version developed by divoff and based on the newer FanFilm engine.[CR]Contact the modification author - t.me/div0ff</description>
             <description lang="pl">Kadr+ 2.0 - nowa wersja dodatku rozwijana przez divoff, oparta na nowszym silniku FanFilm.[CR]Kontakt do twórcy modyfikacji - t.me/div0ff</description>
             <description lang="de">Kadr+ 2.0 ist eine von divoff entwickelte Version auf Basis der neueren FanFilm-Engine.[CR]Kontakt zum Autor der Modifikation - t.me/div0ff</description>
+            <description lang="es">Kadr+ 2.0 es una versión desarrollada por divoff y basada en el motor más reciente de FanFilm.[CR]Contacto con el autor de la modificación - t.me/div0ff</description>
             <platform>all</platform>
             <license>GPL-3.0-or-later</license>
             <assets>
