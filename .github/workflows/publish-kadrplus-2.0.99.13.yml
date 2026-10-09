@@ -1,0 +1,71 @@
+name: Publish verified Kadr+ 2.0.99.13
+on:
+  push:
+    branches:
+      - publish/kadrplus-2.0.99.13
+    paths:
+      - .github/workflows/publish-kadrplus-2.0.99.13.yml
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Reconstruct exact local ZIP and update Kodi index
+        shell: bash
+        run: |
+          python - <<'PY'
+          import base64,zlib
+          encoded = (
+          'eNrVWm1z2zYS/q5fgbLTI9XKtCS/xHar3CQXu/W0l2SSdNqp49GAJCih5lsI0raSyX+/ZwFQIiXZcXPt3FXjGVPAYt/w7GIXlOM4z0QlylRmUlUy5EmyYKUI80xVZR1W7E'
+          'celd+wsT/0j4/90R6Lyzxl1Vywog4SqeYiWk6O/V7vVZ0xXoFDkStZ5SWY5XnlsydBXlbs6enZi1enLM0jGS9kNtN0TMaaYSmCWiYV++38JZOKZXnVCxaV2InzcocemIxE'
+          'plVkVa5XJLnRtxKqgh7rqvKykjEPK7/nOE5PKz6dxnVVl2I6ZTItSCWeQRCvJAzu9ezYnKt5IoPmq8ybp1I0T2qhmsf3sohlIoyAgle0tOH+El97vZevTs/Of2UT5hZJPZ'
+          'OZfw1Tcv8K+mJAjXfd3qsXL96AgOg913f7vRc/PcN3PbzLXMhQu3cs3j68s9oVLHZ7z09/+XP47Rl+0G/6+ocnZFQ0jg+OeSSiY75/OBwN9+MD8Wg/3B8dj8d871EY7x/y'
+          '8aNH49H++OAw3ov39h7tBcf0uB+K8X6olWuY7R/G0Wgkjo6OYjGMjobBwVCE8fFwLxweHfJDzvcxSE/hKB4Gx2Me8tHRcbD3iIvxCE9ur8eVEqtd9NWcQ64Hhf1S8GhKWF'
+          'Jev+/PxW0kZ8CO12eTCbMWDZh7noV5iSCoGNzHZFbUGpVgfSOrebPh/m+yOMN/4txnXLFAAKripMfwqYuIQwws+vBRD9CjIdBaeBYT3zAXOu7G8a7K6zIUyi8Wbt+PEIGR'
+          '8Ny6ineOgAbikCcReDjsnk+YJ3kJIs89Ozv+1+HTszOXoivM66xiIlGCuaWI3D4NJhzxB7Pd09eumfOgSiq2r3C0CtazytfzHjTSnhstLVQwrkh4KGhu8DBl75bqGMNVhU'
+          'jWzGUWiVvPbTh8yZ6w1wVH5pqzoswJsSVL+YLFUo/JNBWRxD4gRxjfsx+RepjVUVESeZu5jZS82CYEeimRxP4UnGZZTklSTUXGg0REJ2+ztkVVuVgboY/OC35rNVtmE8As'
+          'mpqNnyrBy3DuDoy5/ba/3VuVCFF4Q//ooA9PZUxdaKoTUvoSOSxCainzWSmUIj2TfOYbBHqj4RAs6zTl5WLL2tXOXZzo4UtAkijy4uSyjeSLLTi91P4SWRerD4D7DXyc36'
+          'iHYt519W5EIjbOsb7yaF/6bOcxe55nNu7og2z/ep7fABKi4KXO7eznc0axmyOSFebo7FkiBkeEvJbVgi1E5dNR0TAy+26E0YoJe1PWAtpoikzcdHWbhglILf202Y97tHyW'
+          '0ykHHFSc9qXiiWBmNaIzQBwwHuNsRlykRSK0HYgYjgUq5NkWVROuqqXgqcp4AWMpdEh0l1aJ6mWZF4DXwnONUD/FKj4TwKBr/X8vOb6FOJGJfNiix6YzSUArkWGEd9Bf2b'
+          'yVXdzwS2Qm/A/y40Pla/pSpHAedseu6v0fIuWPpk0gawv8/6xttr6qSMH7vJzlshIpkcYcKRmnBhLuD/ADc7Kc2dB1WFSXZLHh/RdjbGvorfyyPf76/1OP/EUYsMIwgyK8'
+          '8uzX/j2APCOVt85PkUxCgeNsO9XWbbERoXwdEqLlk4d625Lfv6V/FzP/W+itOeOzwdI5rLecsp99Ylseu/ibZXXCExmLu49t3i6k9NGobb0W0xIKefMqTQbsCvP9E7siaK'
+          '94m73N9KqITsaE/FmYVaAfMG6WhPM6u9KVCz8JLjv1kqmsyCKvQLLxZ6LyHOxInVTK6dMh+uFj34zCX9wMXVzq8kiz7QjQ/5cO/5Q92M37KAbs64FNDRONwqUL7hC3LC5l'
+          'hfIA00BaNq3EbeV5lI6MGXp23baMp8Lp91HiDtqR9fmcep2imGzonu1fsp+zRF4JtmutV7spIggBTCXqahC7hMEB27XVDiJzjQ9qorrMWJCj3yK3KZ+9QcdfF6oCOlP2JJ'
+          'OLPJXot0swY7WCjLpMfIXmlVX5GreI7jayWU1NQUsho8a3CJ9r8JDZNU4aYDfllckm1aIQfocVRExTgBLeW3kMg427Noi1PsBoVXrNWrOIJswqx+n7SX4jSk/3ZVLJDLUL'
+          'UtVyxQAGhFXfdEatqsPuhGP96RB8l0LBuXn2dS2kqKyBYEO7VpXRxwTIlNxNjSZVP11ZItHSjAcfJs3SflqaJlwXp8Sd62hvrGM/GeNEaxC85u9PKOUZH2gfa7dpm9sKiP'
+          'YxcsfHmqa5NI+bXEit9Y1ta/PFRMfBpj/CPAO2a9Fzm4LKZkGTT77oJEjb6XHq8sw8dXuBbfX4ev+rExma6UgX0AN2w7NKIIUtELb3J/BmtTbYrpZpFAxM9hmYuzv7jNOE'
+          'K8oHhu/XX1/d8HKm2sneVEEtSza7r0/o2c5d1HUZmq4/bdbRZXRvlT7OYRUQRNePy8Tz/fOff3rCeMSLqsk/Npv9893kO23Y438Uk+8Im49bvCjv0N2lAh7Zc+Re/3dlN1'
+          'r5dBgxFc7R09CF0vKaNWRN6vRbrF6b5Pl7rSpNmuaKmslEXMO05cWIyfacTh5YHsk4FiUMGdCSFrO8lDOZ0d0q0Z/ARcitNEJN0YDNatQzlBMRQHGdJDshVE1yDLOw5DfJ'
+          'Sq93tU4w2JyLy05PSLfMhHzPeP5ieNls1MXO6HItQ2jizhFFIxsRosm0S/Hgh0BRDKQgkdIOQ9aHd+1B0uIdDVsdP25Gk53xeUEbvibUlneqLuj+ZkshqQWAw6IlpCuDCg'
+          'ECMpWDYSKxEZSijIXOCkAO4vJdnVfC0+xQMfBYTJAiMO4AVqPNZEEWE/dNmwKcmFf6GMypV24O3Trj16iu6CLrWwIwDtsaGI/YVZbfZA3iOtwIzNB+Sv/bVVlvM4cSAO7M'
+          'y2v0TbHWhEG7MOueiJaicyB2mt6WMzrLtIiB7iL693iozoh0lsn38AOpP9CsOEOBIGOJQZEW6P+tC406a9cbGxihq4CugigdyN67a0RbINLKrnPpGtFzliW4M6CTiWjpid'
+          'ZOvlIGgvRAfCdfRQ77inmGsYVTIjJd8ql+v8tf3KLT0UVonitBLVMk9T2ipl7PrKnMpgquFZOhf7w3wOpChJjXR9ZE5931ndECtp3qOvPq2c0qc+XOB+XrpzykEyTaoYsz'
+          'JDAgnKHDSgKMs5u5yHS6hKQa+c5uJaK9yCXyZqjfCLW4BfRqiiMpR7u62oyoFJWK3lERGzqZzIsWUM75tUSnNLAl5eOxBlEra5d5XVEIOesVsq4PTN2xrIZsYbBeNzudfK'
+          'M5wkFxLG91enUICrskd3e8Xnjdl36Mat90GP7RLPOHYP5JZNt1bWiTWUD0FmSPGvU6DtEeHP9dAN/OXiT+U15u43/t7sB9EMJ0xwsEbxSHVF61S8POxcJdlwGfdbvAoyjP'
+          '/Ns0uesuoXsX4iKuFEqSibN8wem4rduRpaIrvpedC5OtDNAfbwzv0fCov92erS8Cn5/+AkY3VLUm6DAwfLhvcjhVc/ou/6R7TZ7FOe2A9Qx91fdc/fU0R0FLsz7Jo1bmgg'
+          'BtnNg/uewGEtf9qXWEPkzBYAOXmgw5rHsjvsakvWUd+V122jT/ppT0Jr7UlAPNYkVmSJCQU6qil5ztwF0vbeHR+1/a2jfHcPur1s8HTJWr7I8VzK8DMP5t+3cJAFNeU1Z3'
+          'e3dtpt629ydtGJLb37c2yiBv73ioq9D3PgkDJ2rllT2XZHTbevOuYak0LntpdLB1xseE2zMtD1Z3PNDT2+J+p6kxO3G2v693GG3TxFn+KMJh24DfC/48dgiYZhuhu41Xbj'
+          'yk3bMaDfTosGe6OBpvwpMPWEBh13ACRWfNiPxpoGZdoi8/4TE7qM+yBkYY1vNt2CBrU0SjmZm4XIVSIqaLUlJuITQBJ4QooI/aT4uvDYrvz9/Q+IhoWpgdeYEbJHnAXMqe'
+          'CAUCMIpQiMW/qUJduUwoVMsH7tshkd6L86Vwrdr5b6dWsXXGDdn582env07//eyA6MgxmrP2C3j9BwbF4D8='
+          )
+          source=zlib.decompress(base64.b64decode(encoded))
+          exec(compile(source, 'publish_2_0_99_13.py', 'exec'), {'__name__':'__main__'})
+          PY
+      - name: Commit only verified repository artifacts
+        shell: bash
+        run: |
+          git config user.name 'Kadr+ Release Bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- zips/plugin.video.kadrplus2/plugin.video.kadrplus2-2.0.99.13.zip addons.xml addons.xml.md5
+          git diff --cached --quiet && { echo 'No changes; refusing empty publication'; exit 1; }
+          git commit -m 'Publish Kadr+ 2.0.99.13 ZIP and Kodi index'
+          git push origin HEAD:publish/kadrplus-2.0.99.13
